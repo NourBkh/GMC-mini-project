@@ -1,20 +1,13 @@
-# Image de base Python
-FROM python:3.10-slim
+FROM python:3.10
 
-# Dossier de travail
 WORKDIR /app
 
-# Copier les fichiers
 COPY requirements.txt .
 
-# Installer les dépendances
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copier le code source
 COPY . .
 
-# Exposer le port backend
 EXPOSE 5000
 
-# Commande de démarrage
-CMD ["python", "app.py"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000"]

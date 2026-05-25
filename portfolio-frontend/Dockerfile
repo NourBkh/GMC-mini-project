@@ -1,11 +1,18 @@
-# Image Nginx légère
+FROM node:18 as build
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+
+RUN npm run build
+
 FROM nginx:alpine
 
-# Copier les fichiers frontend
-COPY . /usr/share/nginx/html
+COPY --from=build /app/build /usr/share/nginx/html
 
-# Exposer port frontend
-EXPOSE 3000
+EXPOSE 80
 
-# Lancer nginx
 CMD ["nginx", "-g", "daemon off;"]
