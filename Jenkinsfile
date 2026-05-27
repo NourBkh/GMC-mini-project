@@ -8,64 +8,64 @@ pipeline {
 
     stages {
 
-        // 🔴 STAGE 1 — Checkout
+        //  STAGE 1 — Checkout
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'YOUR_REPOSITORY_URL'
+                git branch: 'main', url: 'git@github.com:NourBkh/GMC-mini-project.git'
             }
         }
 
-        // 🟠 STAGE 2 — Install Backend Dependencies
+        //  STAGE 2 — Install Backend Dependencies
         stage('Install Backend Dependencies') {
             steps {
                 sh '''
-                cd backend
+                cd portfolio-backend
                 pip install -r requirements.txt || npm install
                 '''
             }
         }
 
-        // 🟠 STAGE 3 — Install Frontend Dependencies
+        //  STAGE 3 — Install Frontend Dependencies
         stage('Install Frontend Dependencies') {
             steps {
                 sh '''
-                cd frontend
+                cd portfolio-frontend
                 npm install
                 '''
             }
         }
 
-        // 🟡 STAGE 4 — Backend Tests
+        //  STAGE 4 — Backend Tests
         stage('Backend Tests') {
             steps {
                 sh '''
-                cd backend
+                cd portfolio-backend
                 pytest || echo "No backend tests found"
                 '''
             }
         }
 
-        // 🟡 STAGE 5 — Frontend Tests
+        //  STAGE 5 — Frontend Tests
         stage('Frontend Tests') {
             steps {
                 sh '''
-                cd frontend
+                cd portfolio-frontend
                 npm test || echo "No frontend tests found"
                 '''
             }
         }
 
-        // 🔵 STAGE 6 — Docker Build
+        //  STAGE 6 — Docker Build
         stage('Docker Build') {
             steps {
                 sh '''
-                docker build -t backend-app ./backend
-                docker build -t frontend-app ./frontend
+                docker build -t backend-app ./portfolio-backend
+                docker build -t frontend-app ./portfolio-frontend
                 '''
             }
         }
 
-        // 🔵 STAGE 7 — Docker Compose Build & Run
+        //  STAGE 7 — Docker Compose Build & Run
         stage('Docker Compose Run') {
             steps {
                 sh '''
@@ -74,7 +74,7 @@ pipeline {
             }
         }
 
-        // 🟣 STAGE 8 — Kubernetes Deploy (Minikube)
+        //  STAGE 8 — Kubernetes Deploy (Minikube)
         stage('Kubernetes Deploy') {
             steps {
                 sh '''
@@ -85,7 +85,7 @@ pipeline {
             }
         }
 
-        // ⚫ STAGE 9 — Terraform Apply
+        //  STAGE 9 — Terraform Apply
         stage('Terraform Apply') {
             steps {
                 sh '''
@@ -97,7 +97,7 @@ pipeline {
         }
     }
 
-    // 🔴 POST ACTION — Cleanup
+    //  POST ACTION — Cleanup
     post {
         always {
             sh '''
