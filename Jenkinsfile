@@ -20,7 +20,7 @@ pipeline {
             steps {
                 sh '''
                 cd portfolio-backend
-                pip install -r requirements.txt || npm install
+                //pip install -r requirements.txt || npm install
                 '''
             }
         }
